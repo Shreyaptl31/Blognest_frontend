@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../api';  // ← changed
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import '../Styles/Blogcard.css';
@@ -13,7 +13,7 @@ const Blogcard = () => {
     }, []);
 
     useEffect(() => {
-        axios.get('http://localhost:3000/getBlogs')
+        api.get('/getBlogs')  // ← changed
             .then(res => setBlogs(res.data))
             .catch(err => console.error('Error fetching blogs:', err));
     }, []);
@@ -32,8 +32,6 @@ const Blogcard = () => {
             <div className="row">
                 <div className="col-12">
                     <h2 className="mb-4">Latest Blogs</h2>
-
-                    {/* 🔍 Search Bar */}
                     <div className="row mb-4">
                         <div className="col-md-6">
                             <input
@@ -45,7 +43,6 @@ const Blogcard = () => {
                             />
                         </div>
                     </div>
-
                     <div className="row">
                         {filteredBlogs.map((blog, index) => (
                             <div className="col-md-6 mb-4" key={blog._id}>
@@ -65,7 +62,6 @@ const Blogcard = () => {
                             </div>
                         ))}
                     </div>
-
                     {filteredBlogs.length === 0 && (
                         <p className="text-center text-secondary mt-4">
                             No blogs found 🔍

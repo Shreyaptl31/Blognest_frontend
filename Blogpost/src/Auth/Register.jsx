@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api';  // ← changed
 import './Auth.css';
 
 const Register = () => {
@@ -12,9 +12,9 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:3000/userRegister', formData);
+      const res = await api.post('/userRegister', formData);  // ← changed
       alert(res.data.message);
-      navigate('/login'); // Redirect to login page
+      navigate('/login');
     } catch (err) {
       alert('Registration failed. Please try again.');
     }
@@ -24,17 +24,13 @@ const Register = () => {
     <div className="auth-wrapper">
       <form className="auth-form" onSubmit={handleSubmit}>
         <h2 className="form-title">Create Your Account</h2>
-
         <div className="input-group">
           <input type="text" name="name" placeholder="First Name" onChange={handleChange} required />
           <input type="text" name="lname" placeholder="Last Name" onChange={handleChange} required />
         </div>
-
         <input type="email" name="email" placeholder="Email Address" onChange={handleChange} required />
         <input type="password" name="password" placeholder="Create Password" onChange={handleChange} required />
-
         <button type="submit" className="btn btn-primary w-100">Sign Up</button>
-
         <p className="redirect-text">
           Already have an account?{' '}
           <button type="button" className="btn-link" onClick={() => navigate('/login')}>

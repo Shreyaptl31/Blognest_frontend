@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api";  // ← changed
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useNavigate } from "react-router-dom";
@@ -22,9 +22,7 @@ const Profile = () => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const res = await axios.get(
-                    `http://localhost:3000/singleUser/${userId}`
-                );
+                const res = await api.get(`/singleUser/${userId}`);  // ← changed
                 setUser(res.data.user);
             } catch (err) {
                 console.error("Error fetching user:", err);
@@ -40,7 +38,6 @@ const Profile = () => {
     if (loading) return <p>Loading...</p>;
     if (!user) return <p>No user found</p>;
 
-    // 🔍 FILTER BLOGS BY TITLE ONLY
     const filteredBlogs = user.blog.filter((blog) =>
         blog.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -48,14 +45,11 @@ const Profile = () => {
     return (
         <>
             <Header />
-
             <div className="profile-page">
                 <div className="profile-container">
                     <div className="profile-header">
                         <h2 className="m-2">My Profile 😊</h2>
                     </div>
-
-                    {/* 🔍 SEARCH BAR */}
                     <div className="mb-4">
                         <input
                             type="text"
@@ -65,33 +59,19 @@ const Profile = () => {
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
                     </div>
-
                     <div className="blogs-wrapper">
                         {filteredBlogs.length > 0 ? (
                             filteredBlogs.map((blog) => (
-                                <div
-                                    key={blog._id}
-                                    className="blog-card bg-dark"
-                                    data-aos="zoom-in"
-                                >
+                                <div key={blog._id} className="blog-card bg-dark" data-aos="zoom-in">
                                     <h3 className="profile-title">{blog.title}</h3>
-                                    <p className="blog-description fs-5">
-                                        {blog.description}
-                                    </p>
-
+                                    <p className="blog-description fs-5">{blog.description}</p>
                                     <div className="d-flex gap-2">
-                                        <a
-                                            href={`/blogdetails/${blog._id}`}
-                                            className="btn btn-neon"
-                                        >
+                                        <a href={`/blogdetails/${blog._id}`} className="btn btn-neon">
                                             Read More
                                         </a>
-
                                         <button
                                             className="btn btn-warning"
-                                            onClick={() =>
-                                                navigate(`/writeblog/${blog._id}`)
-                                            }
+                                            onClick={() => navigate(`/writeblog/${blog._id}`)}
                                         >
                                             Update ✏️
                                         </button>
@@ -99,14 +79,11 @@ const Profile = () => {
                                 </div>
                             ))
                         ) : (
-                            <p className="no-blogs">
-                                No blogs found 🔍
-                            </p>
+                            <p className="no-blogs">No blogs found 🔍</p>
                         )}
                     </div>
                 </div>
             </div>
-
             <Footer />
         </>
     );

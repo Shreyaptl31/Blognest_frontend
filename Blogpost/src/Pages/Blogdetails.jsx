@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../api";  // ← changed
 import AOS from "aos";
 import Footer from "../Layout/Footer";
 import Header from "../Layout/Header";
@@ -21,9 +21,7 @@ const BlogDetails = () => {
 
     const fetchBlog = async () => {
         try {
-            const res = await axios.get(
-                `http://localhost:3000/getSingleBlog/${id}`
-            );
+            const res = await api.get(`/getSingleBlog/${id}`);  // ← changed
             setBlog(res.data.blog);
         } catch (err) {
             console.error("Error fetching blog:", err);
@@ -36,7 +34,6 @@ const BlogDetails = () => {
         fetchBlog();
     }, [id]);
 
-    // 🔥 DELETE BLOG (Owner only)
     const handleDelete = async () => {
         const confirmDelete = window.confirm(
             "Are you sure you want to delete this blog?"
@@ -44,11 +41,9 @@ const BlogDetails = () => {
         if (!confirmDelete) return;
 
         try {
-            await axios.delete(
-                `http://localhost:3000/deleteBlog/${id}`
-            );
+            await api.delete(`/deleteBlog/${id}`);  // ← changed
             alert("🗑 Blog deleted successfully!");
-            navigate("/profile"); // ✅ fixed redirect
+            navigate("/profile");
         } catch (error) {
             console.error("Error deleting blog:", error);
             alert("❌ Failed to delete blog");
@@ -58,18 +53,14 @@ const BlogDetails = () => {
     if (loading) return <p>Loading...</p>;
     if (!blog) return <p>Blog not found</p>;
 
-    // 🔐 OWNER CHECK
-    const isOwner =
-        blog.user?._id === loggedInUserId;
+    const isOwner = blog.user?._id === loggedInUserId;
 
     return (
         <>
             <Header />
-
             <div className="blog-details-wrapper">
                 <div className="blog-details-card" data-aos="zoom-in">
                     <h1 className="blog-title">{blog.title}</h1>
-
                     <p className="blog-info">
                         By{" "}
                         <strong>
@@ -80,21 +71,15 @@ const BlogDetails = () => {
                         </strong>{" "}
                         on {new Date(blog.createdAt).toLocaleDateString()}
                     </p>
-
                     <p className="blog-description">{blog.description}</p>
-
-                    {/* 🔥 OWNER-ONLY ACTIONS */}
                     {isOwner && (
                         <div className="d-flex gap-2 mt-4">
                             <button
                                 className="btn btn-warning"
-                                onClick={() =>
-                                    navigate(`/writeblog/${blog._id}`)
-                                }
+                                onClick={() => navigate(`/writeblog/${blog._id}`)}
                             >
                                 Update ✏️
                             </button>
-
                             <button
                                 className="btn btn-danger"
                                 onClick={handleDelete}
@@ -105,7 +90,6 @@ const BlogDetails = () => {
                     )}
                 </div>
             </div>
-
             <Footer />
         </>
     );

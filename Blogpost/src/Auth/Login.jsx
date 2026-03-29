@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api';
 import './Auth.css';
 
 const Login = () => {
@@ -15,10 +15,9 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await axios.post('http://localhost:3000/login', formData)
+      const res = await api.post('/login', formData);
       localStorage.setItem('userName', `${res.data.name} ${res.data.lname}`);
       localStorage.setItem('userId', res.data.userId);
-
       alert(res.data.message);
       navigate('/dashboard');
     } catch (err) {
@@ -53,10 +52,8 @@ const Login = () => {
         >
           {loading ? 'Logging in...' : 'Log In'}
         </button>
-
-        {/* Register navigation */}
         <p className="mt-3 text-center">
-          Don’t have an account?{' '}
+          Don't have an account?{' '}
           <span
             className="register-link"
             onClick={() => navigate('/')}

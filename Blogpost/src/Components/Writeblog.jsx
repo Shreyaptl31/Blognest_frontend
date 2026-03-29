@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../api';  // ← changed
 import AOS from 'aos';
 import { useNavigate, useParams } from 'react-router-dom';
 import '../Styles/WriteBlog.css';
 
-
 const WriteBlog = () => {
-    const { blogId } = useParams(); // 🔥 detects update mode
+    const { blogId } = useParams();
     const navigate = useNavigate();
 
     const [title, setTitle] = useState('');
@@ -19,14 +18,11 @@ const WriteBlog = () => {
         AOS.init({ duration: 1000, once: true });
     }, []);
 
-    // 🔥 Fetch blog when updating
     useEffect(() => {
         if (blogId) {
             const fetchBlog = async () => {
                 try {
-                    const res = await axios.get(
-                        `http://localhost:3000/getsingleBlog/${blogId}`
-                    );
+                    const res = await api.get(`/getsingleBlog/${blogId}`);  // ← changed
                     setTitle(res.data.blog.title);
                     setDescription(res.data.blog.description);
                 } catch (error) {
@@ -37,29 +33,18 @@ const WriteBlog = () => {
         }
     }, [blogId]);
 
-    // 🔥 Create or Update Blog
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         try {
             if (blogId) {
-                // UPDATE
-                await axios.put(
-                    `http://localhost:3000/updateBlog/${blogId}`,
-                    { title, description }
-                );
+                await api.put(`/updateBlog/${blogId}`, { title, description });  // ← changed
                 setMessage('✅ Blog updated successfully!');
             } else {
-                // CREATE
-                await axios.post(
-                    'http://localhost:3000/blogCreate',
-                    { title, description, user: userId }
-                );
+                await api.post('/blogCreate', { title, description, user: userId });  // ← changed
                 setMessage('🥳 Blog created successfully!');
                 setTitle('');
                 setDescription('');
             }
-
             setTimeout(() => navigate('/profile/:id'), 1200);
         } catch (error) {
             console.error("Error submitting blog:", error);
@@ -69,14 +54,10 @@ const WriteBlog = () => {
 
     return (
         <>
-            <div
-                className="container write-blog-page bg-dark mt-5 p-5 mb-5"
-                data-aos="zoom-in"
-            >
+            <div className="container write-blog-page bg-dark mt-5 p-5 mb-5" data-aos="zoom-in">
                 <h2 className="writeblog-title mb-4">
                     {blogId ? '✏️ Update Blog' : '📝 Write a New Blog'}
                 </h2>
-
                 <form onSubmit={handleSubmit} className="blog-form">
                     <div className="mb-3">
                         <input
@@ -88,7 +69,6 @@ const WriteBlog = () => {
                             required
                         />
                     </div>
-
                     <div className="mb-3">
                         <textarea
                             className="form-control"
@@ -99,11 +79,9 @@ const WriteBlog = () => {
                             required
                         ></textarea>
                     </div>
-
                     <button type="submit" className="btn btn-neon">
                         {blogId ? 'Update Blog' : 'Publish Blog'}
                     </button>
-
                     {message && <p className="mt-3">{message}</p>}
                 </form>
             </div>
