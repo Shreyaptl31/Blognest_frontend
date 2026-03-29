@@ -1,0 +1,118 @@
+.custom-navbar {
+  background: rgba(20, 20, 20, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  padding: 0.5rem 1rem;
+  z-index: 1000;
+  position: relative;
+}
+
+.logo-gradient {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #00ffd5, #ff00c8, #00bfff);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+  font-size: 2rem;
+  letter-spacing: 1px;
+  transition: transform 0.3s ease;
+}
+
+.logo-gradient:hover {
+  transform: scale(1.05);
+}
+
+/* Navigation links */
+.navbar-nav {
+  gap: 1rem;
+}
+
+.nav-links .nav-link {
+  font-size: 1rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 10px;
+  transition: background 0.3s ease;
+  color: #00ffd5;
+
+}
+
+.nav-links .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ff00c8;
+
+}
+
+/* Search bar */
+.search-form {
+  position: relative;
+  margin-right: 1rem;
+
+}
+
+.search-input {
+  border-radius: 30px;
+  padding: 0.5rem 1rem;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  width: 180px;
+  font-size: 0.95rem;
+  transition: width 0.3s ease;
+}
+
+.search-input::placeholder {
+  color: #ccc;
+}
+
+.search-input:focus {
+  width: 220px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.search-btn {
+  border: none;
+  background: transparent;
+  color: #00ffd5;
+  font-size: 1.2rem;
+  margin-left: 0.5rem;
+  transition: transform 0.3s ease;
+}
+
+.search-btn:hover {
+  transform: scale(1.2);
+}
+
+/* Profile dropdown */
+.profile-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.profile-icon:hover {
+  transform: scale(1.1);
+}
+
+.dropdown-menu {
+  background-color: #1f1f1f;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.dropdown-item {
+  color: #fff;
+  transition: background 0.3s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #00ffd5;
+  color: #000;
+}
+
+.profile-dropdown {
+  margin-left: 1rem;
+}

@@ -1,0 +1,94 @@
+.profile-page {
+    background: #00000025;
+    min-height: 100vh;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.profile-container {
+    margin-top: 0 !important;
+}
+
+.profile-container {
+    max-width: 900px;
+    margin: 20px auto 50px;
+    padding: 20px;
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+/* Heading */
+.profile-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #00ffd5;
+    margin-bottom: 10px;
+}
+
+/* Blog Card */
+.blog-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
+    border-left: 5px solid #ff9800;
+    transition: all 0.3s ease;
+}
+
+.blog-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+/* Blog Title */
+.blog-card h4 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 8px;
+}
+
+.blog-description {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
+
+    text-overflow: ellipsis;
+}
+
+/* Blog Description */
+.blog-card p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #555;
+}
+
+/* Fade Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.btn-neon {
+    background: linear-gradient(to right, #00ffd5, #ff00c8);
+    color: #1a1a1a;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.btn-neon:hover {
+    background: linear-gradient(to right, #ff00c8, #00ffd5);
+    color: #000;
+}

@@ -1,0 +1,49 @@
+.write-blog-page {
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.blog-form label {
+    font-weight: 600;
+    color: #333;
+}
+
+.writeblog-title {
+    color: #00ffd5;
+}
+
+.blog-description {
+    white-space: pre-line;
+}
+
+.blog-form input,
+.blog-form textarea {
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.btn-neon {
+    background: linear-gradient(to right, #00ffd5, #ff00c8);
+    color: #1a1a1a;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.btn-neon:hover {
+    background: linear-gradient(to right, #ff00c8, #00ffd5);
+    color: #000;
+}
+
+.code-box {
+    font-family: "Courier New", monospace;
+    background: #1e1e1e;
+    color: #0f0;
+    border: 1px solid #444;
+    padding: 10px;
+    border-radius: 5px;
+    white-space: pre;
+}

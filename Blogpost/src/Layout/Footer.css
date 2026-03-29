@@ -1,0 +1,43 @@
+.blog-footer {
+    background: linear-gradient(to right, #121212, #1f1f1f);
+    color: #ccc;
+    padding: 3rem 2rem;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-content h3 {
+    font-size: 2rem;
+    color: #00ffd5;
+    margin-bottom: 1rem;
+}
+
+.footer-content p {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.footer-links {
+    margin: 1rem 0;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.footer-links a {
+    color: #ff00c8;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #00ffd5;
+}
+
+.footer-credit {
+    font-size: 0.9rem;
+    color: #777;
+    margin-top: 2rem;
+}
