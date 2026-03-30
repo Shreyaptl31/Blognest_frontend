@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import api from '../api';  // ← changed
 import AOS from 'aos';
 import { useNavigate, useParams } from 'react-router-dom';
-import '../Styles/WriteBlog.css';
+import '../Styles/Writeblog.css';
 
 const WriteBlog = () => {
     const { blogId } = useParams();
