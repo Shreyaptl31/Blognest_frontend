@@ -378,15 +378,25 @@ export default function BlogBot() {
 
             const reader = res.body.getReader();
             const decoder = new TextDecoder();
+            let buffer = "";
 
             while (true) {
                 const { done, value } = await reader.read();
                 if (done) break;
-                const lines = decoder.decode(value).split("\n");
+
+                buffer += decoder.decode(value, { stream: true });
+                const lines = buffer.split("\n");
+
+                // keep incomplete last line in buffer
+                buffer = lines.pop();
+
                 for (const line of lines) {
-                    if (line.startsWith("data: ") && line !== "data: [DONE]") {
+                    const trimmed = line.trim();
+                    if (!trimmed || trimmed === "data: [DONE]") continue;
+                    if (trimmed.startsWith("data: ")) {
                         try {
-                            const { content: delta } = JSON.parse(line.slice(6));
+                            const json = JSON.parse(trimmed.slice(6));
+                            const delta = json.content || json.delta || "";
                             if (delta) {
                                 fullReply += delta;
                                 setMessages((prev) => {
@@ -398,15 +408,22 @@ export default function BlogBot() {
                                     return updated;
                                 });
                             }
-                        } catch { }
+                        } catch (e) {
+                            console.warn("SSE parse error:", trimmed, e);
+                        }
                     }
                 }
             }
-        } catch {
+            // REPLACE WITH
+        } catch (err) {
+            console.error("Chat error:", err);
             fullReply = "Sorry, couldn't connect right now. Please try again!";
             setMessages((prev) => {
                 const updated = [...prev];
-                updated[updated.length - 1].content = fullReply;
+                updated[updated.length - 1] = {
+                    ...updated[updated.length - 1],
+                    content: fullReply,
+                };
                 return updated;
             });
         }
