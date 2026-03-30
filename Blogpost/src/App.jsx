@@ -10,7 +10,6 @@ import Write from './Pages/Write';
 import WriteBlog from './Components/Writeblog';
 import Profile from './Pages/Profile';
 import Blogdetails from './Pages/Blogdetails';
-import BlogBot from './Components/BlogBot';
 
 function App() {
   return (
@@ -25,7 +24,6 @@ function App() {
         <Route path="/profile/:id" element={<Profile />} />
         <Route path="/blogdetails/:id" element={<Blogdetails />} />
       </Routes>
-      <BlogBot />  {/* ← add here, outside Routes but inside Router */}
     </Router>
   );
 }
