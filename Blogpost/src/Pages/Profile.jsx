@@ -55,70 +55,93 @@ const Profile = () => {
 
     return (
         <>
-            <Header />
-            <div className="profile-page">
-                <div className="profile-container">
+            <>
+                <Header />
 
-                    {/* Hero */}
-                    <div className="profile-hero" data-aos="fade-down">
-                        <div className="profile-avatar">{initials}</div>
-                        <div className="profile-hero-text">
-                            <h2>
-                                {user.name || 'My Profile'}
-                                <span className="blog-count-badge">{user.blog.length} posts</span>
-                            </h2>
-                            <p>{user.email}</p>
-                        </div>
-                    </div>
+                <div className="profile-page">
+                    <div className="profile-container">
 
-                    {/* Search */}
-                    <p className="profile-section-label">Your Blogs</p>
-                    <div className="profile-search-wrap" data-aos="fade-up">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
-                        </svg>
-                        <input
-                            type="text"
-                            className="profile-search"
-                            placeholder="Search your blogs by title..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                        />
-                    </div>
-
-                    {/* Cards */}
-                    <div className="blogs-wrapper">
-                        {filteredBlogs.length > 0 ? (
-                            filteredBlogs.map((blog, i) => (
-                                <div
-                                    key={blog._id}
-                                    className="profile-blog-card"
-                                    data-aos="fade-up"
-                                    data-aos-delay={i * 60}
-                                >
-                                    <h3>{blog.title}</h3>
-                                    <p className="profile-blog-description">{blog.description}</p>
-                                    <div className="card-actions">
-                                        <a href={`/blogdetails/${blog._id}`} className="btn-read">
-                                            Read More →
-                                        </a>
-                                        <button
-                                            className="btn-update"
-                                            onClick={() => navigate(`/writeblog/${blog._id}`)}
-                                        >
-                                            ✏️ Update
-                                        </button>
+                        {/* Hero */}
+                        <div className="profile-hero" data-aos="fade-down">
+                            {loading ? (
+                                <div className="skeleton avatar"></div>
+                            ) : (
+                                <>
+                                    <div className="profile-avatar">{initials}</div>
+                                    <div className="profile-hero-text">
+                                        <h2>
+                                            {user?.name || 'My Profile'}
+                                            <span className="blog-count-badge">
+                                                {user?.blog?.length || 0} posts
+                                            </span>
+                                        </h2>
+                                        <p>{user?.email}</p>
                                     </div>
-                                </div>
-                            ))
-                        ) : (
-                            <p className="no-blogs">No blogs found matching "{searchTerm}" 🔍</p>
-                        )}
-                    </div>
+                                </>
+                            )}
+                        </div>
 
+                        {/* Search */}
+                        <p className="profile-section-label">Your Blogs</p>
+
+                        <div className="profile-search-wrap" data-aos="fade-up">
+                            <input
+                                type="text"
+                                className="profile-search"
+                                placeholder="Search your blogs by title..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                        </div>
+
+                        {/* Blogs */}
+                        <div className="blogs-wrapper">
+                            {loading ? (
+                                // ✅ Skeleton cards
+                                Array(4).fill(0).map((_, i) => (
+                                    <div className="profile-blog-card skeleton-card" key={i}>
+                                        <div className="skeleton title"></div>
+                                        <div className="skeleton text"></div>
+                                        <div className="skeleton text short"></div>
+                                    </div>
+                                ))
+                            ) : user && filteredBlogs.length > 0 ? (
+                                filteredBlogs.map((blog, i) => (
+                                    <div
+                                        key={blog._id}
+                                        className="profile-blog-card"
+                                        data-aos="fade-up"
+                                        data-aos-delay={i * 60}
+                                    >
+                                        <h3>{blog.title}</h3>
+                                        <p className="profile-blog-description">{blog.description}</p>
+
+                                        <div className="card-actions">
+                                            <a href={`/blogdetails/${blog._id}`} className="btn-read">
+                                                Read More →
+                                            </a>
+
+                                            <button
+                                                className="btn-update"
+                                                onClick={() => navigate(`/writeblog/${blog._id}`)}
+                                            >
+                                                ✏️ Update
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))
+                            ) : (
+                                <p className="no-blogs">
+                                    No blogs found matching "{searchTerm}" 🔍
+                                </p>
+                            )}
+                        </div>
+
+                    </div>
                 </div>
-            </div>
-            <Footer />
+
+                <Footer />
+            </>
         </>
     );
 };

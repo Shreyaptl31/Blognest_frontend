@@ -23,7 +23,11 @@ const Register = () => {
   return (
     <div className="auth-wrapper">
       <form className="auth-form" onSubmit={handleSubmit}>
-        <h2 className="form-title">Create Your Account</h2>
+        <h2 className="form-title">✨ Blognest</h2>
+        <p className="text-center mb-3" style={{ color: "#a5b4fc" }}>
+          Create your account
+        </p>
+        {/* <h2 className="form-title">Create Your Account</h2> */}
         <div className="input-group">
           <input type="text" name="name" placeholder="First Name" onChange={handleChange} required />
           <input type="text" name="lname" placeholder="Last Name" onChange={handleChange} required />
@@ -33,9 +37,12 @@ const Register = () => {
         <button type="submit" className="btn btn-primary w-100">Sign Up</button>
         <p className="redirect-text">
           Already have an account?{' '}
-          <button type="button" className="btn-link" onClick={() => navigate('/login')}>
+          <span
+            className="auth-link"
+            onClick={() => navigate('/login')}
+          >
             Login
-          </button>
+          </span>
         </p>
       </form>
     </div>
