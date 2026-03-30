@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import api from '../api';  // ← changed
+import api from '../api';
 import AOS from 'aos';
 import { useNavigate, useParams } from 'react-router-dom';
 import '../Styles/Writeblog.css';
@@ -15,14 +15,14 @@ const WriteBlog = () => {
     const userId = localStorage.getItem('userId');
 
     useEffect(() => {
-        AOS.init({ duration: 1000, once: true });
+        AOS.init({ duration: 800, once: true });
     }, []);
 
     useEffect(() => {
         if (blogId) {
             const fetchBlog = async () => {
                 try {
-                    const res = await api.get(`/getsingleBlog/${blogId}`);  // ← changed
+                    const res = await api.get(`/getsingleBlog/${blogId}`);
                     setTitle(res.data.blog.title);
                     setDescription(res.data.blog.description);
                 } catch (error) {
@@ -37,10 +37,10 @@ const WriteBlog = () => {
         e.preventDefault();
         try {
             if (blogId) {
-                await api.put(`/updateBlog/${blogId}`, { title, description });  // ← changed
+                await api.put(`/updateBlog/${blogId}`, { title, description });
                 setMessage('✅ Blog updated successfully!');
             } else {
-                await api.post('/blogCreate', { title, description, user: userId });  // ← changed
+                await api.post('/blogCreate', { title, description, user: userId });
                 setMessage('🥳 Blog created successfully!');
                 setTitle('');
                 setDescription('');
@@ -53,39 +53,51 @@ const WriteBlog = () => {
     };
 
     return (
-        <>
-            <div className="container write-blog-page bg-dark mt-5 p-5 mb-5" data-aos="zoom-in">
-                <h2 className="writeblog-title mb-4">
+        <div className="write-blog-page">
+            <div className="write-blog-card" data-aos="fade-up">
+                <h2 className="writeblog-title">
                     {blogId ? '✏️ Update Blog' : '📝 Write a New Blog'}
                 </h2>
-                <form onSubmit={handleSubmit} className="blog-form">
-                    <div className="mb-3">
+                <p className="writeblog-subtitle">
+                    {blogId
+                        ? 'Make changes and republish your post.'
+                        : 'Share your ideas with the world. Write boldly.'}
+                </p>
+                <div className="writeblog-divider" />
+
+                <form onSubmit={handleSubmit}>
+                    <div className="field-group">
+                        <label className="field-label">Title</label>
                         <input
                             type="text"
-                            className="form-control"
+                            className="field-input"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
-                            placeholder="Title"
+                            placeholder="Give your blog a compelling title..."
                             required
                         />
                     </div>
-                    <div className="mb-3">
+
+                    <div className="field-group">
+                        <label className="field-label">Content</label>
                         <textarea
-                            className="form-control"
-                            rows="6"
+                            className="field-textarea"
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
-                            placeholder="Description"
+                            placeholder="Start writing your story..."
                             required
-                        ></textarea>
+                        />
+                        <div className="field-meta">{description.length} chars</div>
                     </div>
-                    <button type="submit" className="btn btn-neon">
-                        {blogId ? 'Update Blog' : 'Publish Blog'}
+
+                    <button type="submit" className="btn-publish">
+                        {blogId ? '🔄 Update Blog' : '🚀 Publish Blog'}
                     </button>
-                    {message && <p className="mt-3">{message}</p>}
+
+                    {message && <p className="write-message">{message}</p>}
                 </form>
             </div>
-        </>
+        </div>
     );
 };
 

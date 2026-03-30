@@ -22,12 +22,13 @@ const Slider = () => {
                 spaceBetween={30}
                 slidesPerView={1} >
                 <SwiperSlide>
-                    <div className="slide-content" >
+                    <div className="slide-content">
                         <div className="gradient-overlay"></div>
-                        <img src="https://www.shutterstock.com/image-photo/young-woman-working-on-computer-600nw-1711024264.jpg" alt="Welcome" className="slide-image" />
+                        <img src="https://maxhemingway.com/wp-content/uploads/2017/12/blog.jpg" alt="Welcome" className="slide-image" />
                         <div className="text-overlay">
-                            <h3>Customize Your Profile</h3>
-                            <p>Update your bio, avatar, and connect with other writers.</p>
+                            <h3>Welcome to BlogNest</h3>
+                            <p>Your words deserve a home. Write, share, and inspire
+                                thousands of readers across the world.</p>
                         </div>
                     </div>
                 </SwiperSlide>
@@ -36,18 +37,21 @@ const Slider = () => {
                         <div className="gradient-overlay"></div>
                         <img src="https://paulmackey.ie/img/blog_lede.d2ed38cb.png" alt="Welcome" className="slide-image" />
                         <div className="text-overlay">
-                            <h3>Welcome to Blognest!</h3>
-                            <p>Start writing your first blog or explore trending posts.</p>
+                            <h3>Discover Amazing Stories</h3>
+                            <p>Explore blogs from passionate writers on topics that
+                                matter — tech, life, travel, and everything in between.</p>
                         </div>
                     </div>
                 </SwiperSlide>
+
                 <SwiperSlide>
-                    <div className="slide-content">
+                    <div className="slide-content" >
                         <div className="gradient-overlay"></div>
-                        <img src="https://maxhemingway.com/wp-content/uploads/2017/12/blog.jpg" alt="Welcome" className="slide-image" />
+                        <img src="https://www.shutterstock.com/image-photo/young-woman-working-on-computer-600nw-1711024264.jpg" alt="Welcome" className="slide-image" />
                         <div className="text-overlay">
-                            <h3>Track Your Stats</h3>
-                            <p>View your blog views, likes, and comments in real-time.</p>
+                            <h3>Your Story Starts Here</h3>
+                            <p>Every great writer started with one post.
+                                Pick up the pen today and let your ideas flow.</p>
                         </div>
                     </div>
                 </SwiperSlide>

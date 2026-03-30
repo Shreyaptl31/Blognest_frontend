@@ -1,34 +1,178 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;700&family=DM+Sans:wght@300;400;500&display=swap');
+
+/* ── Page ── */
 .blog-page {
-    background: #00000025;
-    padding: 20px 40px;
-    padding-bottom: 50px;
+    background: #080812;
+    min-height: 100vh;
+    padding: 40px 40px 60px;
 }
 
 .blog-page h2 {
+    font-family: 'Syne', sans-serif;
     font-weight: 700;
-    color: #333;
+    font-size: 2rem;
+    color: #e0e7ff;
+    margin-bottom: 1.5rem;
+    position: relative;
+    display: inline-block;
 }
 
+.blog-page h2::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    width: 48px;
+    height: 3px;
+    background: linear-gradient(90deg, #6366f1, #a78bfa);
+    border-radius: 2px;
+}
+
+/* ── Search bar ── */
+.blog-page .form-control {
+    background: rgba(99, 102, 241, 0.07);
+    border: 1px solid rgba(99, 102, 241, 0.22);
+    border-radius: 10px;
+    color: #e0e7ff;
+    padding: 10px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.blog-page .form-control::placeholder {
+    color: rgba(99, 102, 241, 0.4);
+}
+
+.blog-page .form-control:focus {
+    background: rgba(99, 102, 241, 0.1);
+    border-color: rgba(99, 102, 241, 0.5);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    color: #e0e7ff;
+    outline: none;
+}
+
+/* ── Blog card ── */
 .blog-card {
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
+    background: #0e0e1f !important;
+    border: 1px solid rgba(99, 102, 241, 0.15) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
     height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Top accent line */
+.blog-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #6366f1, #a78bfa, transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
 }
 
 .blog-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-6px);
+    border-color: rgba(99, 102, 241, 0.35) !important;
+    box-shadow: 0 12px 40px rgba(99, 102, 241, 0.15);
 }
 
+.blog-card:hover::before {
+    opacity: 1;
+}
+
+.card-body {
+    padding: 1.6rem !important;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* ── Card title ── */
 .card-title {
-    color: #00ffd5;
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #c7d2fe !important;
+    line-height: 1.35;
+    margin: 0;
 }
 
+/* ── Description ── */
 .blogcard-desc {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem !important;
+    color: rgba(165, 180, 252, 0.65) !important;
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    line-clamp: 2;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     text-overflow: ellipsis;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ── Author info ── */
+.blog-card .text-secondary {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem !important;
+    color: rgba(99, 102, 241, 0.6) !important;
+    margin: 0;
+}
+
+.blog-card .text-secondary strong {
+    color: #a5b4fc !important;
+    font-weight: 500;
+}
+
+/* ── Read More button ── */
+.btn-neon {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 8px 18px;
+    border-radius: 9px;
+    background: linear-gradient(135deg, #4f46e5, #7c3aed) !important;
+    color: #fff !important;
+    border: none !important;
+    text-decoration: none;
+    display: inline-block;
+    transition: opacity 0.2s, transform 0.2s;
+    box-shadow: 0 2px 12px rgba(99, 102, 241, 0.3);
+    margin-top: auto;
+    width: fit-content;
+}
+
+.btn-neon:hover {
+    opacity: 0.88;
+    transform: translateY(-1px);
+    color: #fff !important;
+}
+
+/* ── Empty state ── */
+.blog-page .text-secondary {
+    color: rgba(99, 102, 241, 0.5) !important;
+    font-family: 'DM Sans', sans-serif;
+}
+
+/* ── Mobile ── */
+@media (max-width: 576px) {
+    .blog-page {
+        padding: 24px 16px 40px;
+    }
+
+    .blog-page h2 {
+        font-size: 1.5rem;
+    }
+
+    .card-title {
+        font-size: 1.05rem;
+    }
 }
