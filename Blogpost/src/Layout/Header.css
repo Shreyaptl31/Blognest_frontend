@@ -252,3 +252,12 @@
     text-align: center;
   }
 }
+
+/* ✅ Fix dropdown clipping on mobile */
+.custom-navbar {
+  overflow: visible !important;
+}
+
+.navbar-collapse {
+  overflow: visible !important;
+}

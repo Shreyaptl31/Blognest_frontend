@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';  // ✅ add useEffect
 import { useNavigate } from 'react-router-dom';
 import api from '../api';
 import { auth, provider } from "../firebase";
-import { signInWithPopup } from "firebase/auth";
+import {
+  signInWithPopup,
+  signInWithRedirect,    // ✅ add this
+  getRedirectResult      // ✅ add this
+} from "firebase/auth";
 import { FcGoogle } from "react-icons/fc";
 import './Auth.css';
 
@@ -10,7 +14,34 @@ const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  useEffect(() => {
+    const handleRedirect = async () => {
+      try {
+        const result = await getRedirectResult(auth);
+        if (!result) return;
 
+        setLoading(true);
+        const user = result.user;
+
+        const res = await api.post("/googleLogin", {
+          name: user.displayName,
+          email: user.email,
+          photo: user.photoURL,
+        });
+
+        localStorage.setItem("userId", res.data.userId);
+        localStorage.setItem("userName", `${res.data.name} ${res.data.lname || ""}`.trim());
+        navigate("/dashboard");
+
+      } catch (err) {
+        console.error("Redirect error:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    handleRedirect();
+  }, []);
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -35,23 +66,45 @@ const Login = () => {
   };
   const handleGoogleLogin = async () => {
     try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
+      const isMobile = /iPhone|iPad|Android/i.test(navigator.userAgent);
 
-      // send to backend
-      const res = await api.post("/googleLogin", {
-        name: user.displayName,
-        email: user.email,
-        photo: user.photoURL
-      });
+      let user;
+      if (isMobile) {
+        await signInWithRedirect(auth, provider);
+        return;
+      } else {
+        const result = await signInWithPopup(auth, provider);
+        user = result.user;
+      }
+
+      // ✅ Show user something is happening (Render may be waking up)
+      setLoading(true);
+
+      // ✅ Retry up to 3 times with 5s delay (handles Render cold start)
+      let res;
+      for (let attempt = 1; attempt <= 3; attempt++) {
+        try {
+          res = await api.post("/googleLogin", {
+            name: user.displayName,
+            email: user.email,
+            photo: user.photoURL,
+          });
+          break; // success, exit retry loop
+        } catch (err) {
+          if (attempt === 3) throw err; // give up after 3 tries
+          await new Promise(r => setTimeout(r, 5000)); // wait 5s then retry
+        }
+      }
 
       localStorage.setItem("userId", res.data.userId);
-      localStorage.setItem("userName", user.displayName);
-
+      localStorage.setItem("userName", `${res.data.name} ${res.data.lname || ""}`.trim());
       navigate("/dashboard");
 
     } catch (err) {
-      console.log(err);
+      console.error("Google login error:", err);
+      alert("Login failed. The server may be starting up — please try again in 30 seconds.");
+    } finally {
+      setLoading(false);
     }
   };
 

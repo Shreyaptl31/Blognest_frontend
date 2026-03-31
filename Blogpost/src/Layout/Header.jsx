@@ -36,19 +36,52 @@ const Header = () => {
           <span className="logo-text">Blognest</span>
         </a>
 
+        {/* ✅ Avatar always outside the collapse — visible on mobile */}
+        <div className="d-flex align-items-center gap-2 ms-auto me-2 d-lg-none">
+          <div className="dropdown profile-dropdown">
+            <div
+              className="avatar-wrap dropdown-toggle"
+              data-bs-toggle="dropdown"
+              data-bs-boundary="viewport"  // ✅ key fix: positions relative to viewport, not parent
+            >
+              <div className="avatar-circle">{initials}</div>
+            </div>
+            <ul className="dropdown-menu dropdown-menu-end">
+              <li className="dropdown-header">
+                <div className="avatar-circle sm">{initials}</div>
+                <div>
+                  <p className="drop-name">{userName || 'Guest'}</p>
+                  <p className="drop-role">Writer</p>
+                </div>
+              </li>
+              <li><hr className="dropdown-divider" /></li>
+              <li><a className="dropdown-item" href="/profile/:id"><span>👤</span> My Profile</a></li>
+              <li><a className="dropdown-item" href="/write"><span>✏️</span> Write Blog</a></li>
+              <li><hr className="dropdown-divider" /></li>
+              <li>
+                <button className="dropdown-item logout-btn" onClick={handleLogout}>
+                  <span>🚪</span> Logout
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+
         {/* Toggler */}
         <button
           className="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarContent"
+          aria-controls="navbarContent"
+          aria-expanded="false"
         >
           <span className="toggler-bar" />
           <span className="toggler-bar" />
           <span className="toggler-bar" />
         </button>
 
-        {/* Nav links */}
+        {/* Collapsible section */}
         <div className="collapse navbar-collapse" id="navbarContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0 nav-links">
             <li className="nav-item"><a className="nav-link" href="/dashboard">Home</a></li>
@@ -57,13 +90,17 @@ const Header = () => {
             <li className="nav-item"><a className="nav-link" href="/profile/:id">My Blog</a></li>
           </ul>
 
-          {/* Right side */}
+          {/* Right side — desktop only for dropdown, mobile gets write btn only */}
           <div className="header-right">
             <a href="/write" className="write-btn">+ New Post</a>
 
-            {/* Profile dropdown */}
-            <div className="dropdown profile-dropdown">
-              <div className="avatar-wrap dropdown-toggle" data-bs-toggle="dropdown">
+            {/* ✅ Dropdown only in collapse on desktop */}
+            <div className="dropdown profile-dropdown d-none d-lg-block">
+              <div
+                className="avatar-wrap dropdown-toggle"
+                data-bs-toggle="dropdown"
+                data-bs-boundary="viewport"
+              >
                 <div className="avatar-circle">{initials}</div>
               </div>
               <ul className="dropdown-menu dropdown-menu-end">
@@ -75,12 +112,8 @@ const Header = () => {
                   </div>
                 </li>
                 <li><hr className="dropdown-divider" /></li>
-                <li><a className="dropdown-item" href="/profile/:id">
-                  <span>👤</span> My Profile
-                </a></li>
-                <li><a className="dropdown-item" href="/write">
-                  <span>✏️</span> Write Blog
-                </a></li>
+                <li><a className="dropdown-item" href="/profile/:id"><span>👤</span> My Profile</a></li>
+                <li><a className="dropdown-item" href="/write"><span>✏️</span> Write Blog</a></li>
                 <li><hr className="dropdown-divider" /></li>
                 <li>
                   <button className="dropdown-item logout-btn" onClick={handleLogout}>
@@ -91,6 +124,7 @@ const Header = () => {
             </div>
           </div>
         </div>
+
       </div>
     </nav>
   );
