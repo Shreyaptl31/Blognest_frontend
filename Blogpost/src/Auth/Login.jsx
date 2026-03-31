@@ -26,7 +26,6 @@ const Login = () => {
         const res = await api.post("/googleLogin", {
           name: user.displayName,
           email: user.email,
-          photo: user.photoURL,
         });
 
         localStorage.setItem("userId", res.data.userId);
