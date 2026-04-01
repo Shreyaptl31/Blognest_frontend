@@ -39,7 +39,7 @@ const BlogDetails = () => {
         try {
             await api.delete(`/deleteBlog/${id}`);
             alert("🗑 Blog deleted successfully!");
-            navigate("/profile");
+            navigate("/profile/:id");
         } catch (error) {
             console.error("Error deleting blog:", error);
             alert("❌ Failed to delete blog");
